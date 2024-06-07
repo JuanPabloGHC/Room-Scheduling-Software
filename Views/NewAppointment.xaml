@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Room_Scheduling_Software.Views.NewAppointment"
+               Color="Transparent"
+               CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <Frame WidthRequest="350" HeightRequest="400" CornerRadius="25" BackgroundColor="#853ae3">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="5">
+
+                <Label x:Name="Title" 
+                    Text="NEW APPPOINTMENT"
+                    TextColor="#3228c3"
+                    HorizontalOptions="Center"
+                    FontSize="20"/>
+
+                <!--USER-->
+                <Label Text="User"
+                       TextColor="#1a184e"/>
+                <Line X1="0" Y1="0" X2="280" Y2="0" Stroke="#1a184e" StrokeThickness="1"/>
+                <!--email-->
+                <Label Text="Email"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <HorizontalStackLayout Spacing="3">
+                    <Entry x:Name="User_Email"
+                           Placeholder="Email"
+                           PlaceholderColor="Black"
+                           HorizontalOptions="Start"
+                           MinimumWidthRequest="200"
+                           TextColor="Black"
+                           />
+                    <Button Text="?"
+                            TextColor="#3228c3"
+                            BorderColor="#3228c3"
+                            BorderWidth="3"
+                            BackgroundColor="Transparent"
+                            Clicked="SearchUser"
+                            />
+                </HorizontalStackLayout>
+
+                <!--name-->
+                <Label Text="Name"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="User_Name"
+                       IsReadOnly="True"
+                       HorizontalOptions="Start"
+                       MinimumWidthRequest="200"
+                       TextColor="Black"
+                       />
+
+                <!--visits-->
+                <Label Text="Visits"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="User_Visits"
+                       IsReadOnly="True"
+                       HorizontalOptions="Start"
+                       MinimumWidthRequest="200"
+                       TextColor="Black"
+                       />
+
+                <!--TIME-->
+                <Label Text="Time"
+                       TextColor="#1a184e"/>
+                <Line X1="0" Y1="0" X2="280" Y2="0" Stroke="#1a184e" StrokeThickness="1"/>
+                <!--starthour-->
+                <Label Text="Start"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <TimePicker x:Name="Hour_Start"
+                            IsEnabled="False"/>
+                <!--endhour-->
+                <Label Text="End"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <TimePicker x:Name="Hour_End"
+                            Focused="OnTimeSelected"/>
+
+                <!--PRICE-->
+                <Label Text="Price"
+                        TextColor="#1a184e"/>
+                <Line X1="0" Y1="0" X2="280" Y2="0" Stroke="#1a184e" StrokeThickness="1"/>
+                <!--cost-->
+                <Grid ColumnDefinitions="*, *">
+                    <HorizontalStackLayout Spacing="3">
+                        <Label Text="Per hour: "
+                               TextColor="White"/>
+                        <Label x:Name="Room_Price"
+                                TextColor="White"
+                                HorizontalOptions="Start"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="1" Spacing="3">
+                        <Label Text="Total: "
+                               TextColor="White"/>
+                        <Label x:Name="Appointment_Price"
+                               TextColor="White"
+                               HorizontalOptions="Start"/>
+                    </HorizontalStackLayout>
+                </Grid>
+
+                <!--ERROR-->
+                <Label x:Name="Error_Message" 
+                       TextColor="Red" 
+                       HorizontalOptions="Center" 
+                       Margin="3"/>
+                
+                <!--BUTTONS-->
+                <Grid ColumnDefinitions="*, *" Margin="10">
+                    <Button x:Name="CreateButton" 
+                            Text="Create"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Create"
+                            />
+                    <Button Grid.Column="1" 
+                            Text="Cancel"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Cancel"
+                            />
+                </Grid>
+
+            </VerticalStackLayout>
+            
+        </ScrollView>
+        
+    </Frame>
+
+</toolkit:Popup>

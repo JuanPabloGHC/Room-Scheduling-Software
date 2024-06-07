@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Room_Scheduling_Software.Views.NewUser"
+               Color="Transparent"
+               CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <Frame WidthRequest="350" HeightRequest="400" CornerRadius="25" BackgroundColor="#7986ff">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="5">
+
+                <Label x:Name="Title" 
+                       Text="NEW USER"
+                       TextColor="#3228c3"
+                       HorizontalOptions="Center"
+                       FontSize="20"/>
+
+                <!--NAME-->
+                <Label Text="Name"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="User_Name"
+                       Placeholder="Name"
+                       PlaceholderColor="Black"
+                       HorizontalOptions="Start"
+                       MinimumWidthRequest="300"
+                       TextColor="Black"
+                       />
+
+                <!--EMAIL-->
+                <Label Text="Email"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="User_Email"
+                       Placeholder="Email"
+                       PlaceholderColor="Black"
+                       HorizontalOptions="Start"
+                       MinimumWidthRequest="300"
+                       TextColor="Black"
+                       />
+
+                <!--ERROR-->
+                <Label x:Name="Error_Message" 
+                       TextColor="Red" 
+                       HorizontalOptions="Center" 
+                       Margin="3"/>
+
+                <!--BUTTONS-->
+                <Grid ColumnDefinitions="*, *" Margin="10">
+                    <Button x:Name="CreateButton" 
+                            Text="Create"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Create"
+                            />
+                    <Button Grid.Column="1" 
+                            Text="Cancel"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Cancel"
+                            />
+                </Grid>
+
+            </VerticalStackLayout>
+            
+        </ScrollView>
+        
+    </Frame>
+</toolkit:Popup>

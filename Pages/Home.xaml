@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Room_Scheduling_Software.Pages.Home"
+             BackgroundColor="#C3D1FF">
+
+    <ScrollView>
+        
+        <VerticalStackLayout x:Name="MainContainer"
+                             Padding="30, 0"
+                             Spacing="25">
+
+            <Label Text="HOME"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" 
+                   TextColor="#1A184E"/>
+
+            <Button Text="REFRESH"
+                    TextColor="Green"
+                    BackgroundColor="Transparent"
+                    BorderColor="Green"
+                    BorderWidth="3"
+                    HorizontalOptions="End"
+                    Clicked="Refresh"/>
+
+        </VerticalStackLayout>
+        
+    </ScrollView>
+    
+</ContentPage>

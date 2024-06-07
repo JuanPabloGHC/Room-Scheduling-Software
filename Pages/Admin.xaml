@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Room_Scheduling_Software.Pages.Admin"
+             BackgroundColor="#C3D1FF">
+
+    <ScrollView>
+        
+        <VerticalStackLayout Padding="30, 0"
+                             Spacing="25">
+
+            <!-- TITLE -->
+            <Label Text="ADMIN"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" 
+                   TextColor="#1A184E"
+                   />
+
+            <Grid ColumnDefinitions="*, *">
+
+                <!-- ROOMS -->
+                <VerticalStackLayout Grid.Column="0">
+
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="ROOMS"
+                                TextColor="#3228c3"
+                                FontSize="20"
+                                VerticalOptions="Center"/>
+                        <Button Text="+" 
+                                TextColor="#6e28c3" 
+                                BorderColor="#6e28c3"
+                                BackgroundColor="Transparent"
+                                BorderWidth="3"  
+                                CornerRadius="30"
+                                VerticalOptions="Center"
+                                Clicked="AddRoom"
+                                />
+                    </HorizontalStackLayout>
+
+                    <VerticalStackLayout x:Name="ContainerRooms"
+                     Spacing="25"
+                     Padding="30, 0">
+
+                    </VerticalStackLayout>
+                    
+                </VerticalStackLayout>
+
+                <!-- CATEGORIES -->
+                <VerticalStackLayout Grid.Column="1">
+
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="CATEGORIES"
+                                TextColor="#3228c3"
+                                FontSize="20"
+                                VerticalOptions="Center"/>
+                        <Button Text="+" 
+                                TextColor="#6e28c3" 
+                                BorderColor="#6e28c3"
+                                BackgroundColor="Transparent"
+                                BorderWidth="3"  
+                                CornerRadius="30"
+                                VerticalOptions="Center"
+                                Clicked="AddCategory"
+                                />
+                    </HorizontalStackLayout>
+
+                    <VerticalStackLayout x:Name="ContainerCategories"
+                                         Spacing="25"
+                                         Padding="30, 0">
+                        
+                    </VerticalStackLayout>
+                    
+                </VerticalStackLayout>
+
+            </Grid>
+
+
+        </VerticalStackLayout>
+        
+    </ScrollView>
+    
+</ContentPage>

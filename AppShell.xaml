@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Room_Scheduling_Software.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Room_Scheduling_Software"
+    xmlns:pages="clr-namespace:Room_Scheduling_Software.Pages"
+    Shell.TabBarIsVisible="True"
+    Shell.TabBarTitleColor="#B789F7"
+    Shell.TabBarBackgroundColor="#4F2083"
+    Title="GAME ROOM">
+
+    <!--Cafe: #c8401e-->
+    <!--Morado: #6e28c3-->
+    <!--Azul. #3228c3-->
+    <TabBar>
+
+        <Tab Title="Home"
+             Icon="consola.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:Home}" />
+        </Tab>
+
+        <Tab Title="Admin"
+             Icon="administrador.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:Admin}" />
+        </Tab>
+        
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Room_Scheduling_Software.Views.NewRoom"
+               Color="Transparent">
+
+    <Frame WidthRequest="300" HeightRequest="300" CornerRadius="25" BackgroundColor="#853ae3">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label x:Name="Title" 
+                       Text="NEW ROOM"
+                       TextColor="#3228c3"
+                       HorizontalOptions="Center"
+                       FontSize="20"/>
+
+                <!--NAME-->
+                <Label Text="Name"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="Room_Name"
+                       Placeholder="Name"
+                       PlaceholderColor="Black"
+                       HorizontalOptions="Start"
+                       MinimumWidthRequest="200"
+                       TextColor="Black"
+                       />
+
+                <!--CATEGORY-->
+                <Picker x:Name="Room_Category" 
+                        Title="Category"
+                        TitleColor="White"
+                        BackgroundColor="#dee6ff"
+                        HorizontalOptions="Start"
+                        MinimumWidthRequest="200"
+                        TextColor="Black"
+                        />
+
+                <!--CAPACITY-->
+                <Label Text="Capacity"
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="Room_Capacity"
+                       Placeholder="Capacity"
+                       PlaceholderColor="Black"
+                       HorizontalOptions="Start"
+                       Keyboard="Numeric"
+                       MinimumWidthRequest="200"
+                       TextColor="Black"/>
+
+                <!--PRICE--> 
+                <Label Text="Hourly price" 
+                       TextColor="White"
+                       HorizontalOptions="Start"/>
+                <Entry x:Name="Room_Price"
+                       Placeholder="Price"
+                       PlaceholderColor="Black"
+                       HorizontalOptions="Start"
+                       Keyboard="Numeric"
+                       MinimumWidthRequest="200"
+                       TextColor="Black"/>
+                
+                <!--BUTTONS-->
+                <Grid ColumnDefinitions="*, *">
+                    <Button x:Name="CreateButton" 
+                            Text="Create"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Create"
+                            />
+                    <Button Grid.Column="1" 
+                            Text="Cancel"  
+                            TextColor="#f1e9fe" 
+                            BorderColor="#f1e9fe" 
+                            BorderWidth="3" 
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Clicked="Cancel"
+                            />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Frame>
+
+</toolkit:Popup>
