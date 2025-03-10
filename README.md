@@ -33,7 +33,7 @@ In addition, to book a room, you have to create a user. In this MVP version, the
 
 ## Entities
 
-### User
+### Users
 
 * SQL
   
@@ -44,6 +44,7 @@ In addition, to book a room, you have to create a user. In this MVP version, the
 * Code
 
 ```C#
+[Table("Users")]
 Class User {
   [Key]
   int Id { get; set; }
@@ -53,7 +54,7 @@ Class User {
 }
 ```
 
-### Category
+### Categories
 
 * SQL
   
@@ -64,6 +65,7 @@ Class User {
 * Code
 
 ```C#
+[Table("Categories")]
 Class Category {
   [Key]
   int Id { get; set; }
@@ -73,7 +75,7 @@ Class Category {
 }
 ```
 
-### Room
+### Rooms
 
 * SQL
   
@@ -84,6 +86,7 @@ Class Category {
 * Code
 
 ```C#
+[Table("Rooms")]
 Class Room {
   [Key]
   int Id { get; set; }
@@ -97,7 +100,7 @@ Class Room {
 }
 ```
 
-### Appointment
+### Appointments
 
 * SQL
   
@@ -108,6 +111,7 @@ Class Room {
 * Code
 
 ```C#
+[Table("Appointments")]
 Class Appointment {
   [Key]
   int Id { get; set; }
@@ -127,7 +131,7 @@ Class Appointment {
 
 ### Create DB
 ```SQL
-CREATE DATABASE <DATABASE_AME>;
+CREATE DATABASE <DATABASE_NAME>;
 ```
 
 ### Create Users Table
@@ -199,7 +203,7 @@ class Context : DbContext {
 ## Architecture
 
 ```plain
-└──📁/Room-Scheduling-Fostware
+└──📁/Room-Scheduling-Software
    ├──📁/Data
    │   ├──📁/Entities
    │   │  ├──📄Appointment.cs
