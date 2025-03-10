@@ -210,6 +210,16 @@ class Context : DbContext {
    │   │  │──📄Category.cs
    │   │  │──📄Room.cs
    │   │  └──📄User.cs
+   │   ├──📁/Interfaces
+   │   │  ├──📄IAppointmentRepository.cs
+   │   │  │──📄ICategoryRepository.cs
+   │   │  │──📄IRoomRepository.cs
+   │   │  └──📄IUserRepository.cs
+   │   ├──📁/Repository
+   │   │  ├──📄AppointmentRepository.cs
+   │   │  │──📄CategoryRepository.cs
+   │   │  │──📄RoomRepository.cs
+   │   │  └──📄UserRepository.cs
    │   └──📄Context.cs
    │
    ├──📁/Pages
@@ -237,7 +247,9 @@ class Context : DbContext {
    └──📄MauiProgram.cs
 ```
 
-* Folder Data: Save the structures of the tables and the connection to the database.
+* Folder Data/Entities: Save the structures of the tables and the connection to the database.
+* Folder Data/Interfaces: Define the interface of the Repository Design Pattern.
+* Folder Data/Repository: Manage the data in the data base of each entity.
 * Folder Pages: Page Home to manage the Appointments and Admin to manage the Rooms and Categories.
 * Folder Views: To create the Popups views.
 * App: To charge the sources.
