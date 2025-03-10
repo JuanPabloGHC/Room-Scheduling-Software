@@ -2,47 +2,56 @@ using CommunityToolkit.Maui.Views;
 using Room_Scheduling_Software.Data.Entities;
 using Room_Scheduling_Software.Data.Repositories;
 
-namespace Room_Scheduling_Software.Views;
-
-public partial class NewUser : Popup
+namespace Room_Scheduling_Software.Views
 {
-	public NewUser(string email)
-	{
-		InitializeComponent();
+    public partial class NewUser : Popup
+    {
+        #region < CONSTRUCTORS >
 
-		User_Email.Text = email;
-	}
+        public NewUser(string email)
+	    {
+		    InitializeComponent();
 
-	private void Cancel(object sender, EventArgs e)
-	{
-		Close();
-	}
+		    User_Email.Text = email;
+	    }
 
-	private async void Create(object sender, EventArgs e)
-	{
-        // Valid name?
-        if (User_Name.Text == null || User_Name.Text == "" || User_Name.Text == " ")
-        {
-            User_Name.PlaceholderColor = Colors.Red;
-            return;
-        }
+        #endregion
 
-        // Valid email?
-        if (User_Email.Text == null || User_Email.Text == "" || User_Email.Text == " ")
-        {
-            User_Email.PlaceholderColor = Colors.Red;
-            return;
-        }
+        #region < UI EVENTS >
 
-		User? _user = await UserRepository.GetInstance().GetEntity(User_Email.Text);
+        private void Cancel(object sender, EventArgs e)
+	    {
+		    Close();
+	    }
 
-		if (_user != null)
-			Error_Message.Text = "ALREADY EXISTS";
+	    private async void Create(object sender, EventArgs e)
+	    {
+            // Valid name?
+            if (User_Name.Text == null || User_Name.Text == "" || User_Name.Text == " ")
+            {
+                User_Name.PlaceholderColor = Colors.Red;
+                return;
+            }
 
-		_user = UserRepository.GetInstance().Create(User_Name.Text, User_Email.Text, 0);
+            // Valid email?
+            if (User_Email.Text == null || User_Email.Text == "" || User_Email.Text == " ")
+            {
+                User_Email.PlaceholderColor = Colors.Red;
+                return;
+            }
 
-		Close(_user);
+		    User? _user = await UserRepository.GetInstance().GetEntity(User_Email.Text);
 
-	}
+		    if (_user != null)
+			    Error_Message.Text = "ALREADY EXISTS";
 
+		    _user = UserRepository.GetInstance().Create(User_Name.Text, User_Email.Text, 0);
+
+		    Close(_user);
+
+	    }
+
+        #endregion
+
+    }
 }

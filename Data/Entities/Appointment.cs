@@ -6,6 +6,8 @@ namespace Room_Scheduling_Software.Data.Entities
     [Table("Appointments")]
     public class Appointment
     {
+        #region < PROPERTIES >
+
         [Key]
         public int Id { get; set; }
 
@@ -23,6 +25,10 @@ namespace Room_Scheduling_Software.Data.Entities
 
         public decimal Price { get; set; }
 
+        #endregion
+
+        #region < CONSTRUCTORS >
+
         public Appointment() { }
 
         public Appointment(int roomID, int userID, DateTime endHour, decimal price, DateTime? startHour = null)
@@ -33,6 +39,8 @@ namespace Room_Scheduling_Software.Data.Entities
             this.End_Hour = endHour;
             this.Price = price;
         }
+
+        #endregion
 
     }
 }

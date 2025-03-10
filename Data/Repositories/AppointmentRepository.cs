@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Room_Scheduling_Software.Data.Entities;
 using Room_Scheduling_Software.Data.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Room_Scheduling_Software.Data.Repositories
 {

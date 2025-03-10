@@ -1,14 +1,11 @@
 ﻿using Room_Scheduling_Software.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Room_Scheduling_Software.Data.Interfaces
 {
     public interface IRoomRepository
     {
+        #region < PUBLIC METHODS >
+
         public Task<List<Room>> GetAll();
 
         public Task<Room?> GetEntity(int roomID);
@@ -20,6 +17,8 @@ namespace Room_Scheduling_Software.Data.Interfaces
         public Task ModifyStatus(int roomID, bool status);
 
         public Task Delete(int roomID);
+
+        #endregion
 
     }
 }

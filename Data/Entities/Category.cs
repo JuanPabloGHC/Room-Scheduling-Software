@@ -6,6 +6,8 @@ namespace Room_Scheduling_Software.Data.Entities
     [Table("Categories")]
     public class Category
     {
+        #region < PROPERTIES >
+
         [Key]
         public int Id { get; set; }
 
@@ -15,6 +17,10 @@ namespace Room_Scheduling_Software.Data.Entities
 
         public ICollection<Room>? Rooms { get; set; }
 
+        #endregion
+
+        #region < CONSTRUCTORS >
+
         public Category() { }
 
         public Category(string name, byte[] photo)
@@ -22,5 +28,8 @@ namespace Room_Scheduling_Software.Data.Entities
             this.Name = name;
             this.Photo = photo;
         }
+
+        #endregion
+
     }
 }

@@ -1,17 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Room_Scheduling_Software.Data.Entities
 {
     [Table("Rooms")]
     public class Room
     {
+        #region < PROPERTIES >
+
         [Key]
         public int Id { get; set; }
 
@@ -27,6 +23,10 @@ namespace Room_Scheduling_Software.Data.Entities
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
 
+        #endregion
+
+        #region < CONSTRUCTORS >
+
         public Room() { }
 
         public Room (int categoryID, string name, int capacity, decimal hourly_price, bool isFree)
@@ -37,6 +37,8 @@ namespace Room_Scheduling_Software.Data.Entities
             this.IsFree = isFree;
             this.CategoryId = categoryID;
         }
+
+        #endregion
 
     }
 }
