@@ -20,5 +20,14 @@ namespace Room_Scheduling_Software.Data.Entities
 
         public int Number_Visits { get; set; } = 0;
 
+        public User() { }
+
+        public User(string name, string email, int number_visits)
+        {
+            this.Name = name;
+            this.Email = email;
+            this.Number_Visits = number_visits;
+        }
+
     }
 }

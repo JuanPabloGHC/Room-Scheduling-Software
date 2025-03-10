@@ -1,9 +1,8 @@
 using CommunityToolkit.Maui.Views;
-using Room_Scheduling_Software.Data;
-using Room_Scheduling_Software.Data.Entities;
 using Room_Scheduling_Software.Views;
+using Room_Scheduling_Software.Data.Entities;
+using Room_Scheduling_Software.Data.Repositories;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Room_Scheduling_Software.Pages;
 
@@ -21,24 +20,26 @@ public partial class Admin : ContentPage
         LoadInformation();
 	}
 
-	private void LoadInformation()
+	private async Task LoadInformation()
 	{
-		// Get DATA
-		using (var db = new Context())
-		{
-			// Get Categories
-			Categories_collection.Clear();
-			foreach (var c in db.Categories.ToList())
-			{
-				Categories_collection.Add(c);
-			}
+		// Get Categories
+		Categories_collection.Clear();
 
-			// Get Rooms
-			Rooms_collection.Clear();
-			foreach (var r in db.Rooms.ToList())
-			{
-				Rooms_collection.Add(r);
-			}
+		List<Category> categoriesList = await RepositoryController.GetInstance().Categories.GetAll();
+
+		foreach (var c in categoriesList)
+		{
+			Categories_collection.Add(c);
+		}
+
+		// Get Rooms
+		Rooms_collection.Clear();
+
+		List<Room> roomsList = await RepositoryController.GetInstance().Rooms.GetAll();
+
+		foreach (var r in roomsList)
+		{
+			Rooms_collection.Add(r);
 		}
 
 		// Update VerticalStackLayout of Rooms
@@ -46,14 +47,7 @@ public partial class Admin : ContentPage
 
 		foreach (var ro in Rooms_collection)
 		{
-			Category c_temp;
-			using (var db = new Context())
-			{
-				c_temp = db.Categories
-					.Where(c => c.Id == ro.CategoryId)
-					.First();
-			}
-			Stream stream  = new MemoryStream(c_temp.Photo);
+			Stream stream  = new MemoryStream(ro.Category.Photo);
 
 			// BUTTONS Delete - Update
             Button buttonD = new Button
@@ -273,12 +267,7 @@ public partial class Admin : ContentPage
 		// Update category
 		if (_button?.AutomationId != null)
 		{
-			using (var db = new Context())
-			{
-				_category = db.Categories
-					.Where(c => c.Id == Convert.ToInt32(_button.AutomationId))
-					.First();
-			}
+			_category = await RepositoryController.GetInstance().Categories.GetEntity(Convert.ToInt32(_button.AutomationId));
 		}
 
 		var popup = new NewCategory(_category);
@@ -287,30 +276,20 @@ public partial class Admin : ContentPage
 
 		if (result != null)
 		{
-			LoadInformation();
+			await LoadInformation();
 		}
 	}
 
-	private void DeleteCategory(object? sender, EventArgs e)
+	private async void DeleteCategory(object? sender, EventArgs e)
 	{
 		Button? _b = sender as Button;
 		int id = Convert.ToInt32(_b?.AutomationId);
 
 		// Delete Category in DB
-		using(var db = new Context())
-		{
-			Category? cat = db.Categories
-				.Where(c => c.Id == id)
-				.FirstOrDefault();
+		await RepositoryController.GetInstance().Categories.Delete(id);
 
-			if (cat != null)
-			{
-				db.Remove(cat);
-				db.SaveChanges();
-				LoadInformation();
-			}
-		}
-	}
+        await LoadInformation();
+    }
 
 	private async void AddRoom(object? sender, EventArgs e)
 	{
@@ -321,12 +300,7 @@ public partial class Admin : ContentPage
 		// Update Room
 		if (_button?.AutomationId != null)
 		{
-			using (var db = new Context())
-			{
-				_room = db.Rooms
-					.Where(r => r.Id == Convert.ToInt32(_button.AutomationId))
-					.First();
-			}
+			_room = await RepositoryController.GetInstance().Rooms.GetEntity(Convert.ToInt32(_button.AutomationId));
 		}
 
 		var popup = new NewRoom(_room);
@@ -335,29 +309,19 @@ public partial class Admin : ContentPage
 
 		if (result != null)
 		{
-			LoadInformation();
+			await LoadInformation();
 		}
 	}
 
-	private void DeleteRoom(object? sender, EventArgs e)
+	private async void DeleteRoom(object? sender, EventArgs e)
 	{
 		Button? _b = sender as Button;
 		int id = Convert.ToInt32(_b?.AutomationId);
 
 		// Delete Room in DB
-		using (var db = new Context())
-		{
-			Room? ro = db.Rooms
-				.Where (r => r.Id == id)
-				.FirstOrDefault();
-
-			if (ro != null)
-			{
-				db.Remove(ro);
-				db.SaveChanges();
-				LoadInformation();
-			}
-		}
-	}
+		await RepositoryController.GetInstance().Rooms.Delete(id);
+		
+		await LoadInformation();
+    }
 
 }

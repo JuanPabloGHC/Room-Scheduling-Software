@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Room_Scheduling_Software.Data.Entities;
-using System.Diagnostics;
 
 namespace Room_Scheduling_Software.Data;
 
@@ -16,6 +15,6 @@ public class Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=<HOST>;Database=GameRoomDB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
+        optionsBuilder.UseSqlServer("Server=<HOST>\\SQLEXPRESS;Database=GameRoomDB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
     }
 }

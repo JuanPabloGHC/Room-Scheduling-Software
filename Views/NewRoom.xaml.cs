@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Views;
-using Room_Scheduling_Software.Data;
 using Room_Scheduling_Software.Data.Entities;
-using System.Diagnostics;
+using Room_Scheduling_Software.Data.Repositories;
 
 namespace Room_Scheduling_Software.Views;
 
@@ -30,26 +29,24 @@ public partial class NewRoom : Popup
 		LoadCategories();
 	}
 
-	private void LoadCategories()
+	private async void LoadCategories()
 	{
 		int index = -1;
 		int count = 0;
-		using (var db = new Context())
-		{
-			foreach (var c in db.Categories.ToList())
-			{
-				_categories.Add(c.Name);
-				if (roomU != null && c.Id == roomU.CategoryId) 
-				{
-					index = count; 
-				}
 
-				count++;
+		foreach (var c in await CategoryRepository.GetInstance().GetAll())
+		{
+			_categories.Add(c.Name);
+			if (roomU != null && c.Id == roomU.CategoryId) 
+			{
+				index = count; 
 			}
 
-			Room_Category.ItemsSource = _categories;
-			Room_Category.SelectedIndex = index;
+			count++;
 		}
+
+		Room_Category.ItemsSource = _categories;
+		Room_Category.SelectedIndex = index;
 	}
 
 	private void Cancel(object sender, EventArgs e)
@@ -57,7 +54,7 @@ public partial class NewRoom : Popup
 		Close();
 	}
 
-	private void  Create(object sender, EventArgs e)
+	private async void  Create(object sender, EventArgs e)
 	{
 
 		// Valid name?
@@ -104,48 +101,23 @@ public partial class NewRoom : Popup
         else
             Room_Price.TextColor = Colors.Black;
 
-		// Create new Room
-		Room _room = new Room();
-        
-		_room.Name = Room_Name.Text;
-
-		_room.Capacity = Convert.ToInt32(Room_Capacity.Text);
-
-		_room.Hourly_Price = Convert.ToDecimal(Room_Price.Text);
-
-		_room.IsFree = true;
-
 		string? sc = Room_Category.SelectedItem as string;
-        using (var db = new Context())
-		{
-			// Searcg the Category in the DB
-			int idC = Convert.ToInt32(db.Categories
-				.Where(c => c.Name == sc)
-				.Select(c => c.Id)
-				.First());
-			_room.CategoryId = idC;
 
-			// Update Room
-			if (roomU != null)
-			{
-				var temp_r = db.Rooms
-					.Where(r => r.Id == roomU.Id)
-					.First();
+		// Search the Category in the DB
+		Category? category = await CategoryRepository.GetInstance().GetEntity(sc);
 
-				temp_r.Name = _room.Name;
-				temp_r.Capacity = _room.Capacity;
-				temp_r.Hourly_Price = _room.Hourly_Price;
-				temp_r.CategoryId = _room.CategoryId;
-			}
-			// Add the Room to the DB
-			else
-			{
-				db.Add(_room);
-			}
+		if (category == null)
+			return;
 
-			db.SaveChanges();
-		}
+		// Update Room
+		if (roomU != null)
+			roomU = await RoomRepository.GetInstance().Modify(roomU.Id, category.Id, Room_Name.Text, Convert.ToInt32(Room_Capacity.Text), Convert.ToDecimal(Room_Price.Text));
+		// Create new Room
+		else
+			roomU = RoomRepository.GetInstance().Create(category.Id, Room_Name.Text, Convert.ToInt32(Room_Capacity.Text), Convert.ToDecimal(Room_Price.Text), true);
 
-        Close(_room);
+        Close(roomU);
+
 	}
+
 }

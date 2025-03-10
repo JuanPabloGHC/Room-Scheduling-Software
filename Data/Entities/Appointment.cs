@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Room_Scheduling_Software.Data.Entities
 {
@@ -28,5 +22,17 @@ namespace Room_Scheduling_Software.Data.Entities
         public DateTime? End_Hour { get; set; }
 
         public decimal Price { get; set; }
+
+        public Appointment() { }
+
+        public Appointment(int roomID, int userID, DateTime endHour, decimal price, DateTime? startHour = null)
+        {
+            this.UserId = userID;
+            this.RoomId = roomID;
+            this.Start_Hour = startHour != null ? startHour : DateTime.Now;
+            this.End_Hour = endHour;
+            this.Price = price;
+        }
+
     }
 }

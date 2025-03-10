@@ -26,5 +26,17 @@ namespace Room_Scheduling_Software.Data.Entities
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
+
+        public Room() { }
+
+        public Room (int categoryID, string name, int capacity, decimal hourly_price, bool isFree)
+        {
+            this.Name = name;
+            this.Capacity = capacity;
+            this.Hourly_Price = hourly_price;
+            this.IsFree = isFree;
+            this.CategoryId = categoryID;
+        }
+
     }
 }

@@ -1,9 +1,8 @@
 using CommunityToolkit.Maui.Views;
-using Room_Scheduling_Software.Data;
-using Room_Scheduling_Software.Data.Entities;
 using Room_Scheduling_Software.Views;
+using Room_Scheduling_Software.Data.Entities;
+using Room_Scheduling_Software.Data.Repositories;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Room_Scheduling_Software.Pages;
 
@@ -13,6 +12,7 @@ public partial class Home : ContentPage
 	private static VerticalStackLayout Container = new VerticalStackLayout();
 
 	public static Command<int>? BookCommand;
+
 	public Home()
 	{
 		InitializeComponent();
@@ -26,22 +26,22 @@ public partial class Home : ContentPage
 		LoadInformation();
     }
 
-	public static void LoadInformation()
+	public static async Task LoadInformation()
 	{
 		Container.Children.Clear();
         int columns = 0;
 		int rows = 0;
-		// Get DATA
-		using (var db = new Context())
-		{
-			// Get Rooms
-			Rooms_collection?.Clear();
-			foreach (var room in db.Rooms)
-			{
-				Rooms_collection?.Add(room);
-			}
-		}
+		
+		// Get Rooms
+		List<Room> roomsList = await RepositoryController.GetInstance().Rooms.GetAll();
 
+        Rooms_collection?.Clear();
+
+        foreach (Room room in roomsList)
+        {
+            Rooms_collection?.Add(room);
+        }
+        
         // Update Grid of Rooms
         Grid grid = new Grid
 		{
@@ -73,14 +73,7 @@ public partial class Home : ContentPage
 		rows = 0;
         foreach (var room in Rooms_collection)
 		{
-            Category c_temp;
-			using (var db = new Context())
-			{
-				c_temp = db.Categories
-					.Where(c => c.Id == room.CategoryId)
-					.First();
-			}
-			Stream stream = new MemoryStream(c_temp.Photo);
+			Stream stream = new MemoryStream(room?.Category?.Photo);
 
 			// GRID
 			Grid gridRoom = new Grid
@@ -203,70 +196,43 @@ public partial class Home : ContentPage
 
     }
 
-    private async void Book(int id)
+    private async void Book(int roomID)
     {
-		Appointment[] _ap = [];
-		Appointment? temp = null;
-		using (var db = new Context())
-		{
-			_ap = db.Appointments
-				.Where(a => a.RoomId == id)
-				.ToArray();
-
-			// Is it OCCUPIED?
-			foreach (var ap in _ap)
-			{
-				if (DateTime.Now < ap.End_Hour)
-				{
-					temp = ap;
-					break;
-				}
-			}
-		}
-
-		var popup = new NewAppointment(this, id, temp);
+		// Is it OCCUPIED?
+		Appointment? current = await RepositoryController.GetInstance().Appointments.GetCurrent(id);
+        
+		var popup = new NewAppointment(this, roomID, current);
 
         var result = await this.ShowPopupAsync(popup);
 
 		// Update Page
 		if(result != null)
 		{
-			LoadInformation();
+			await LoadInformation();
 		}
     }
 
-	private void Refresh(object sender, EventArgs e)
+	private async void Refresh(object sender, EventArgs e)
 	{
-		CheckAppointments();
-		LoadInformation();
+		await CheckAppointments();
+		await LoadInformation();
 	}
 
-	private void CheckAppointments()
+	private async Task CheckAppointments()
 	{
 		DateTime now = DateTime.Now;
-		Appointment?[] aps = [];
-		using (var db = new Context())
-		{
-			// Get the last Appointment of each Room
-			aps = db.Appointments
-				.GroupBy(a => a.Room)
-				.Select(g => g.OrderByDescending(a => a.Start_Hour).FirstOrDefault())
-				.ToArray();
 
-			// If the time is over -> change the room status' to FREE
-			foreach (var ap in aps.Where(ap => ap != null))
-			{
-				if (ap.End_Hour < now)
-				{
-					var room = db.Rooms
-						.Where(r => r.Id == ap.RoomId)
-						.First();
-					
-					room.IsFree = true;
+		// Get the last Appointment of each Room
+		List<Appointment?> aps = await RepositoryController.GetInstance().Appointments.GetAllLast();
 
-					db.SaveChanges();
-				}
-			}
-		}
+        // If the time is over -> change the room status' to FREE
+        foreach (var ap in aps.Where(ap => ap != null))
+        {
+            if (ap?.End_Hour < now)
+            {
+				await RepositoryController.GetInstance().Rooms.ModifyStatus(ap.RoomId, true);
+            }
+        }
 	}
+
 }

@@ -1,6 +1,6 @@
 using CommunityToolkit.Maui.Views;
-using Room_Scheduling_Software.Data;
 using Room_Scheduling_Software.Data.Entities;
+using Room_Scheduling_Software.Data.Repositories;
 
 namespace Room_Scheduling_Software.Views;
 
@@ -18,7 +18,7 @@ public partial class NewUser : Popup
 		Close();
 	}
 
-	private void Create(object sender, EventArgs e)
+	private async void Create(object sender, EventArgs e)
 	{
         // Valid name?
         if (User_Name.Text == null || User_Name.Text == "" || User_Name.Text == " ")
@@ -34,27 +34,15 @@ public partial class NewUser : Popup
             return;
         }
 
-        using (var db = new Context())
-		{
-			User? _user = db.Users
-				.Where(u => u.Email == User_Email.Text)
-				.FirstOrDefault();
+		User? _user = await UserRepository.GetInstance().GetEntity(User_Email.Text);
 
-			if (_user == null)
-			{
-				_user = new User();
-				_user.Name = User_Name.Text;
-				_user.Email = User_Email.Text;
-				_user.Number_Visits = 0;
-
-				db.Users.Add(_user);
-				db.SaveChanges();
-
-				Close(_user);
-			}
-
+		if (_user != null)
 			Error_Message.Text = "ALREADY EXISTS";
-		}
+
+		_user = UserRepository.GetInstance().Create(User_Name.Text, User_Email.Text, 0);
+
+		Close(_user);
+
 	}
 
 }

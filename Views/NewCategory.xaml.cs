@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Views;
-using Room_Scheduling_Software.Data;
 using Room_Scheduling_Software.Data.Entities;
-using System.Diagnostics;
+using Room_Scheduling_Software.Data.Repositories;
 
 namespace Room_Scheduling_Software.Views;
 
@@ -9,7 +8,8 @@ public partial class NewCategory : Popup
 {
     public MemoryStream? _Mstream;
     private Category? categoryU = null;
-	public NewCategory(Category? _category = null)
+	
+    public NewCategory(Category? _category = null)
 	{
 		InitializeComponent();
 
@@ -67,7 +67,7 @@ public partial class NewCategory : Popup
         Close();
     }
 
-    private void Create(object sender, EventArgs e) 
+    private async void Create(object sender, EventArgs e) 
     {
 
         // Valid name?
@@ -84,34 +84,14 @@ public partial class NewCategory : Popup
             return;
         }
 
+        // Modify Category
+        if (categoryU != null)
+            categoryU = await CategoryRepository.GetInstance().Modify(categoryU.Id, Category_Name.Text, _Mstream?.ToArray());
         // Create new Category
-        Category _category = new Category();
-        _category.Name = Category_Name.Text;
-        _category.Photo = _Mstream?.ToArray();
+        else
+            categoryU = CategoryRepository.GetInstance().Create(Category_Name.Text, _Mstream.ToArray());
 
-        // MANAGE DB
-        using (var db = new Context())
-        {    
-            // Update Room
-            if (categoryU != null)
-            {
-                var temp_c = db.Categories
-                    .Where(c => c.Id == categoryU.Id)
-                    .First();
-
-                temp_c.Name = _category.Name;
-                temp_c.Photo = _category.Photo;
-            }
-            // Add the Room to the DB
-            else
-            {
-                db.Add(_category);
-            }
-
-            db.SaveChanges();
-        }
-
-        Close(_category);
+        Close(categoryU);
     }
 
 }
